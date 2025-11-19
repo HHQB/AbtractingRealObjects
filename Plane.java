@@ -2,8 +2,8 @@ public class Plane {
     private String model;
     private Passengers passengers;
     private int MAX_CAPACITY = 850;
-    private boolean isFlying;
-    private int altitude;
+    private boolean isFlying = false;
+    private int altitude = 0;
 
     public Plane(String model, Passengers passengers) {
         this.model = model;
@@ -26,7 +26,15 @@ public class Plane {
 
     public void setPassengers(int changeInPassengers) {
         this.passengers.setPassengers(changeInPassengers);
-        
+    }
+
+    public void setAltitude(int altitude) {
+        this.altitude = altitude;
+        if (altitude > 0) {
+            isFlying = true;
+        } else {
+            isFlying = false;
+        }
     }
 
     public int getCapacity() {
@@ -46,10 +54,18 @@ public class Plane {
     }
 
     public void loadPassengers(int numberOfNewPassengers) {
-        if (this.passengers.getNumberOfPassengers() + numberOfNewPassengers <= MAX_CAPACITY) {
-            this.passengers.setPassengers(this.passengers.getNumberOfPassengers() + numberOfNewPassengers);
+        if (isFlying == false) {
+            if (this.passengers.getNumberOfPassengers() + numberOfNewPassengers <= MAX_CAPACITY) {
+                this.passengers.setPassengers(this.passengers.getNumberOfPassengers() + numberOfNewPassengers);
+            } else {
+                System.out.println("Cannot load passengers: Exceeds maximum capacity.");
+            }
         } else {
-            System.out.println("Cannot load passengers: Exceeds maximum capacity.");
+            System.out.println("Cannot load passengers while flying.");
         }
+    }
+
+    public String toString() {
+        return "Plane Model: " + model + ", " + passengers.toString() + ", Max Capacity: " + MAX_CAPACITY + ", Is Flying: " + isFlying + ", Altitude: " + altitude;
     }
 }
